@@ -7,8 +7,6 @@ use security:get_htcondor_idtokens
 ALLOW_WRITE = $(ALLOW_WRITE) *
 {% endif %}
 
-DAEMON_LIST = MASTER
-
 {%- for daemon in condor_daemon_list %}
 {% if ((daemon|lower == "centralmanager") or (daemon|lower == "central manager")) %}
 use role:CentralManager
