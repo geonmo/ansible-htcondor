@@ -22,6 +22,6 @@ use role:Submit
 {% elif daemon|lower == "execute" %}
 use role:Execute
 {% else %}
-DAEMON_LIST = {{ condor_daemon_list }}
+DAEMON_LIST = $(DAEMON_LIST) {{ daemon }}
 {% endif %}
 {% endfor %}
