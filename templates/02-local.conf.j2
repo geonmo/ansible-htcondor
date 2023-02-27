@@ -7,4 +7,20 @@ use security:get_htcondor_idtokens
 ALLOW_WRITE = $(ALLOW_WRITE) *
 {% endif %}
 
+DAEMON_LIST = MASTER
+{%- for daemon in condor_daemon_list %}
+{% if ((daemon|lower == "centralmanager") or (daemon|lower == "central manager")) %}
+use role:CentralManager
+{% elif daemon|lower == "submit" %}
+# Allow local users to submit jobs.  Since the only way to authenticate
+# is with IDTOKENS (all of whose holders we trust) and FS (the local users),
+# we can avoid writing things like *@$(HOSTNAME), which will fail if
+# UID_DOMAIN is set (and introduces more opportunities for DNS to fail).
+ALLOW_WRITE = $(ALLOW_WRITE) *
+use role:Submit
+{% elif daemon|lower == "execute" %}
+use role:Execute
+{% else %}
 DAEMON_LIST = {{ condor_daemon_list }}
+{% endif %}
+{% endfor %}
