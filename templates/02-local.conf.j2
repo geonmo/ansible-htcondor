@@ -21,6 +21,9 @@ ALLOW_WRITE = $(ALLOW_WRITE) *
 use role:Submit
 {% elif daemon|lower == "execute" %}
 use role:Execute
+{% elif daemon|lower == "gangliad" %}
+GANGLIA_SEND_DATA_FOR_ALL_HOSTS = TRUE
+DAEMON_LIST = $(DAEMON_LIST) GANGLIAD
 {% else %}
 DAEMON_LIST = $(DAEMON_LIST) {{ daemon }}
 {% endif %}
